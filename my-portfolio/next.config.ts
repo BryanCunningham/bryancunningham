@@ -1,14 +1,16 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === 'production';
 
-const nextConfig: NextConfig = {
-  basePath: "/bryancunningham",
-  output: "export",
-  reactStrictMode: true,
+const nextConfig = {
+  output: 'export',
+  distDir: 'out',
   images: {
     unoptimized: true,
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/bryancunningham' : '',
-};
+  // Only apply basePath and assetPrefix in production
+  basePath: isProduction ? '/bryancunningham' : '',
+  assetPrefix: isProduction ? '/bryancunningham/' : '',
+  trailingSlash: false,
+}
 
-export default nextConfig;
-
+module.exports = nextConfig 
