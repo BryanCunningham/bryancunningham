@@ -144,12 +144,12 @@ const Button = styled.button<{ disabled?: boolean }>`
 `;
 
 const BackButton = styled(Button)`
-  background: white;
-  color: #3b82f6;
-  border: 2px solid #3b82f6;
+  background: ${({ theme }) => theme.colors.background.paper};
+  color: ${({ theme }) => theme.colors.primary.main};
+  border: 2px solid ${({ theme }) => theme.colors.primary.main};
 
-  &:hover {
-    background: #f0f7ff;
+  &:hover:not(:disabled) {
+    background: ${({ theme }) => theme.colors.background.subtle};
   }
 `;
 
@@ -223,12 +223,12 @@ const ContentView = ({ selectedCategories, onBack }: ContentViewProps) => {
         </AnimatePresence>
         
         <NavigationButtons>
-          <Button
+          <BackButton
             onClick={handlePrevious}
             disabled={currentIndex === 0}
           >
             Previous
-          </Button>
+          </BackButton>
           <Button
             onClick={handleNext}
             disabled={currentIndex === selectedCategories.length - 1}

@@ -3,22 +3,26 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { Global, css } from '@emotion/react';
-import { lightTheme, darkTheme } from '../styles/theme';
+import { lightTheme, darkTheme, highContrastTheme, ThemeType } from '../styles/theme';
 
 type ThemeContextType = {
-  isDark: boolean;
-  toggleTheme: () => void;
+  themeType: ThemeType;
+  cycleTheme: () => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+const themes = {
+  light: lightTheme,
+  dark: darkTheme,
+  'high-contrast': highContrastTheme,
+};
 
 const globalStyles = css`
   body {
     margin: 0;
     padding: 0;
-    background-color: ${lightTheme.colors.background.main};
-    color: ${lightTheme.colors.text.primary};
-    font-family: ${lightTheme.typography.fontFamily.sans};
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   * {
@@ -27,25 +31,30 @@ const globalStyles = css`
 `;
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isDark, setIsDark] = useState(false);
+  const [themeType, setThemeType] = useState<ThemeType>('light');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDark(savedTheme === 'dark' || (!savedTheme && prefersDark));
+    const savedTheme = localStorage.getItem('theme') as ThemeType;
+    if (savedTheme && savedTheme in themes) {
+      setThemeType(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setThemeType('dark');
+    }
   }, []);
 
-  const toggleTheme = () => {
-    setIsDark(prev => {
-      const newTheme = !prev;
-      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-      return newTheme;
-    });
+  const cycleTheme = () => {
+    const themeOrder: ThemeType[] = ['light', 'dark', 'high-contrast'];
+    const currentIndex = themeOrder.indexOf(themeType);
+    const nextIndex = (currentIndex + 1) % themeOrder.length;
+    const newTheme = themeOrder[nextIndex];
+    
+    setThemeType(newTheme);
+    localStorage.setItem('theme', newTheme);
   };
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
-      <EmotionThemeProvider theme={isDark ? darkTheme : lightTheme}>
+    <ThemeContext.Provider value={{ themeType, cycleTheme }}>
+      <EmotionThemeProvider theme={themes[themeType]}>
         <Global styles={globalStyles} />
         {children}
       </EmotionThemeProvider>

@@ -1,7 +1,7 @@
 'use client';
 
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 const ToggleButton = styled(motion.button)`
@@ -20,6 +20,7 @@ const ToggleButton = styled(motion.button)`
   cursor: pointer;
   z-index: 100;
   box-shadow: ${({ theme }) => theme.shadows.md};
+  overflow: hidden;
   
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     bottom: ${({ theme }) => theme.spacing.md};
@@ -40,18 +41,28 @@ const themeIcons = {
   light: '☀️',
   dark: '🌙',
   'high-contrast': '👁️'
-};
+} as const;
 
 export const ThemeToggle = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const { themeType, cycleTheme } = useTheme();
 
   return (
     <ToggleButton
-      onClick={toggleTheme}
+      onClick={cycleTheme}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
     >
-      {isDark ? '☀️' : '🌙'}
+      <AnimatePresence mode="wait">
+        <IconWrapper
+          key={themeType}
+          initial={{ y: 20, opacity: 0, rotate: -90 }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          exit={{ y: -20, opacity: 0, rotate: 90 }}
+          transition={{ duration: 0.3 }}
+        >
+          {themeIcons[themeType]}
+        </IconWrapper>
+      </AnimatePresence>
     </ToggleButton>
   );
 }; 

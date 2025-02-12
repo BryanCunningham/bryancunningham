@@ -35,6 +35,7 @@ export interface Theme {
     md: string;
     lg: string;
     xl: string;
+    '2xl': string;
   };
   typography: {
     fontSize: {
@@ -59,5 +60,11 @@ export interface Theme {
     fast: string;
     normal: string;
     slow: string;
+  };
+  breakpoints: {
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
   };
 } 
