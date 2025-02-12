@@ -7,6 +7,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  compiler: {
+    emotion: true
+  },
   // Only apply basePath and assetPrefix in production
   basePath: isProduction ? '/bryancunningham' : '',
   assetPrefix: isProduction ? '/bryancunningham/' : '',
