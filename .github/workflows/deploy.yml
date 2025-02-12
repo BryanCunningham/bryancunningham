@@ -40,8 +40,6 @@ jobs:
         
       - name: Build with Next.js
         working-directory: ./my-portfolio
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npm run build
         
       - name: Upload artifact

@@ -285,8 +285,6 @@ export default function Onboarding() {
           <Button
             onClick={handleContinue}
             disabled={selectedCategories.length === 0}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             Continue
           </Button>
