@@ -39,6 +39,13 @@ jobs:
         working-directory: ./my-portfolio
         run: npm run build
 
+      - name: List directory structure
+        run: |
+          pwd
+          ls -la
+          ls -la my-portfolio/
+          ls -la my-portfolio/out || echo "out directory not found"
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
