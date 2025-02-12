@@ -25,7 +25,7 @@ const CertificationGrid = styled.div`
 `;
 
 const CertificationCard = styled(motion.div)`
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.background.paper};
   padding: ${({ theme }) => theme.spacing.lg};
   border-radius: 8px;
   box-shadow: ${({ theme }) => theme.shadows.sm};

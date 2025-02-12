@@ -21,6 +21,11 @@ export interface Theme {
       light: string;
       inverse: string;
     };
+    border: {
+      light: string;
+      main: string;
+      dark: string;
+    };
   };
   spacing: {
     xs: string;

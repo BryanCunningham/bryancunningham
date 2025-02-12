@@ -25,6 +25,13 @@ const DetailPanel = styled(motion.div)`
   margin-top: ${({ theme }) => theme.spacing.sm};
 `;
 
+const CertificationCard = styled(motion.div)`
+  background: ${({ theme }) => theme.colors.background.paper};
+  padding: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+`;
+
 export const InterestsContent = () => {
   const [selectedInterest, setSelectedInterest] = useState<string | null>(null);
 
